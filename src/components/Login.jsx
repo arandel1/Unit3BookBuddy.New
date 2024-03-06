@@ -13,19 +13,21 @@ const Login = ({ login })=> {
   }
 
   return (
-    <form onSubmit={ submit }>
-      <input
-        placeholder='email'
-        value={ email }
-        onChange={ ev => setEmail(ev.target.value )}
-      />
-      <input
-        placeholder='password'
-        value={ password }
-        onChange={ ev => setPassword(ev.target.value )}
-      />
-      <button>Login</button>
-    </form>
+    <div className='login-container'>
+      <form onSubmit={ submit }>
+        <input
+          placeholder='email'
+          value={ email }
+          onChange={ ev => setEmail(ev.target.value )}
+        />
+        <input
+          placeholder='password'
+          value={ password }
+          onChange={ ev => setPassword(ev.target.value )}
+        />
+        <button>Login</button>
+      </form>
+    </div>
   );
 };
 

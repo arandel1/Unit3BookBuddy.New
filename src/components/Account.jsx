@@ -1,7 +1,9 @@
 const Account = ({ auth })=> {
+
+  
   return (
-    <div>
-      Account Info
+    <div className="account-container">
+      Hello, { auth.email }!
     </div>
   );
 };

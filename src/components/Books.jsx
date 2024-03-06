@@ -1,16 +1,22 @@
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 const Books = ({ books }) => {
+
+  const navigate = useNavigate();
+
   return (
     <>
-      <ul>
+     
         {books.map((book) => (
-          <li key={book.id}>
+          <div className="book-card" key={book.id}>
             <h2>{book.title}</h2>
             <h3>by {book.author}</h3>
-            {/* <p>{book.description}</p> */}
-            {/* <p>{book.available}</p> */}
-          </li>
+            <img className="book-cover" src={book.coverimage} alt="book cover image" />          
+            <button onClick={() => navigate(`/books/${book.id}`)}>View Details</button>
+          </div>
+
         ))}
-      </ul>
     </>
   );
 };

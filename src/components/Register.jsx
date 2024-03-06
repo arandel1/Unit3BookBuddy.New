@@ -17,19 +17,21 @@ const Register = ({ register })=> {
   }
 
   return (
-    <form onSubmit={ submit }>
-      <input
-        placeholder='email'
-        value={ email }
-        onChange={ ev => setEmail(ev.target.value )}
-      />
-      <input
-        placeholder='password'
-        value={ password }
-        onChange={ ev => setPassword(ev.target.value )}
-      />
-      <button>Register</button>
-    </form>
+    <div className='register-container'>
+      <form onSubmit={ submit }>
+        <input
+          placeholder='email'
+          value={ email }
+          onChange={ ev => setEmail(ev.target.value )}
+        />
+        <input
+          placeholder='password'
+          value={ password }
+          onChange={ ev => setPassword(ev.target.value )}
+        />
+        <button>Register</button>
+      </form>
+    </div>
   );
 };
 

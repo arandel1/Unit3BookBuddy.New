@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Navigations from './components/Navigations'
 import { Route, Routes, Link } from 'react-router-dom'
+import SingleBook from './components/SingleBook'
 import Account from './components/Account'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
   const [auth, setAuth] = useState({});
   const [reservations, setReservations] = useState([]);
 
+// Log in with Token
   useEffect (() => {
     const attemptLoginWithToken = async() => {
       const response = await fetch('https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/users/me', 
@@ -34,18 +36,19 @@ function App() {
     }
   }, []);
 
+// auth
   useEffect(() => {
-    console.log(auth);
+    // console.log(auth);
     if(auth.id){
-      console.log('load the reservations');
+      getReservations;
     }
     else {
-      console.log('clear the reservations');
+      setReservations([])
     }
   }, [auth])
 
 
-
+// LOGIN
 const login = async(credentials)=> {
   let response = await fetch('https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/users/login',
   {
@@ -76,7 +79,7 @@ const login = async(credentials)=> {
 }
 
 
-
+// REGISTER
 const register = async(credentials)=> {
   let response = await fetch('https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/users/register',
   {
@@ -106,11 +109,13 @@ const register = async(credentials)=> {
   }
 }
 
+// LOGOUT
   const logout = () => {
     window.localStorage.removeItem('token');
     setAuth({});
   };
 
+  // Get Books
   useEffect(() => {
     const fetchBooks = async() => {
       const response = await fetch ('https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/books');
@@ -122,26 +127,70 @@ const register = async(credentials)=> {
 
   }, []);
 
+// Get Reservations
+  const getReservations = async () => {
+   try { let response = await fetch('https://fsa-book-buddy-b6e748d1380d.herokuapp.com/api/reservations',
+    {
+      headers: {
+        "Content-Type" : "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    );
+    const json = await response.json();
+      console.log(json)
+    } catch (error) {
+      console.error("Could not fetch reservations:", error);
+    }
+  } 
+  getReservations();
+
+
   return (
     <>
-      <Navigations/>
-      <br/>
-      <br/>
-      <br/>
-      <h1><img id = 'logo-image' src={bookLogo}/> Library </h1>
+    <br/>
+    <br/>
+    <br/>
+    
+    <h1><img id='logo-image' src={bookLogo}/>Library App</h1>
+    <nav>
+      <Link to='/books'>Books</Link>
+      {
+        auth.id ? (
+          <Link to='/account'>Account</Link>
+        ) : (null)
+      }
+    </nav>
+    {
+      auth.id ? (
+        <button onClick={ logout }>Logout</button>
+        ):
+        (
+          <>
+            <Login login={ login }/> 
+            <Register register={ register }/> 
+          </>
+        )
+    }
+    <Routes>
+
+      <Route path='/books/:id' element={ <SingleBook books={ books }/> } />
+      
+      <Route path='/books' element={ <Books books={ books } /> }/>
+      
+      {/* <Route path='/books/search/:term' element={  <Books books={ books } />}/> */}
 
       {
         auth.id ? (
-          <button onClick={ logout }>Welcome {auth.email } (Click to logout)</button>
-          ):
-          (
-            <>
-              <Login login={ login }/> 
-              <Register register={ register }/> 
-            </>
-          )
+          <Route
+            path='/account'
+            element={
+              <Account auth={ auth } />
+            }
+          />
+        ): (null)
       }
-      <Books books = { books }/>
+    </Routes>
 
     </>
   )
