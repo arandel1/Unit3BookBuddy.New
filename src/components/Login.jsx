@@ -1,13 +1,10 @@
-import { useState, useEffect } from 'react';
-
-
-
-const Login = ({ login }) => {
-  const [email, setEmail] = useState ('');
+import { useState } from 'react';
+const Login = ({ login })=> {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  const submit = async(e)=> {
-    e.preventDefault();
+
+  const submit = async(ev)=> {
+    ev.preventDefault();
     const credentials = {
       email,
       password
@@ -15,21 +12,18 @@ const Login = ({ login }) => {
     await login(credentials);
   }
 
-  
   return (
     <form onSubmit={ submit }>
-      <input 
+      <input
         placeholder='email'
-        value = { email }
-        onChange={ e => setEmail(e.target.value)}
+        value={ email }
+        onChange={ ev => setEmail(ev.target.value )}
       />
-
-      <input 
+      <input
         placeholder='password'
-        value = { password }
-        onChange={ e => setPassword(e.target.value)}
+        value={ password }
+        onChange={ ev => setPassword(ev.target.value )}
       />
-
       <button>Login</button>
     </form>
   );
