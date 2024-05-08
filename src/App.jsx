@@ -182,10 +182,7 @@ const register = async(credentials)=> {
 
       {
         auth.id ? (
-          <Route
-            path='/account'
-            element={
-              <Account auth={ auth } />
+          <Route path='/account' element={<Account auth={ auth } />
             }
           />
         ): (null)
